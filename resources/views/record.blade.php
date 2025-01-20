@@ -1222,10 +1222,13 @@
                         <div class="hidden md:block">
                             <div class="ml-10 flex items-baseline space-x-4">
                                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                <a href="{{ route('home') }}" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Home</a>
-                                <a href="{{ route('api.records', ['page' => 1]) }}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">API_records</a>
-                                <a href="{{ route('api.record', ['id' => 1]) }}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">API_record</a>
-                                <a href="{{ route('api.genre', ['id' => 1, 'page' => 1]) }}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">API_genre</a>
+                                <div class="ml-10 flex items-baseline space-x-4">
+                                    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                                    <a href="{{ route('home') }}" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Home</a>
+                                    <a href="{{ route('api.records', ['page' => 1]) }}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">API_records</a>
+                                    <a href="{{ route('api.record', ['id' => 1]) }}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">API_record</a>
+                                    <a href="{{ route('api.genre', ['id' => 1, 'page' => 1]) }}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">API_genre</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1370,34 +1373,28 @@
             </header>
             <main class="bg-gray-100">
                 <h2>.</h2>
-                <div class="grid gap-4 mt-10 border mx-auto w-10/12 px-4 py-6 sm:px-6 lg:px-8  lg:grid-cols-3 sm:grid-cols-1">
-                    @foreach ($records as $record)
-                    <div class="shadow bg-white p-3 flex gap-1 justify-between">
+                <div class="flex justify-center">
+                    <div class="bg-white border p-6 grid grid-cols-2 gap-4 ">
                         <div>
-                            <a class="font-black text-lg" href="{{ route('record.show', $record->id) }}">
-                                {{ $record->title }}
-                            </a>
-                            </h3>
+                            <p class="font-black text-4xl">{{ $record->title }}</p>
                             <p>{{ $record->artist }}</p>
+                            <p><strong>Género:</strong>
+                                @foreach ($record->genres as $genre)
+                                {{ $genre->name }}{{ !$loop->last ? ', ' : '' }}
+                                @endforeach
+                            </p>
+                            <p>{{ $record->release_year }}</p>
+                            <p>{{ ucfirst($record->state) }}</p>
                             <p class="text-green-600 font-black">&#8364; {{ $record->price }}</p>
                         </div>
-                        <h3>
-
-                            <img class="w-32 h-32 aspect-square object-cover" src="{{ asset('img/' . $record->cover_image) }}" alt="{{ $record->title }}" width="150">
+                        <div>
+                            <img src="{{ asset('img/' . $record->cover_image) }}" alt="{{ $record->title }}" width="300">
+                        </div>
                     </div>
-                    @endforeach
                 </div>
+
             </main>
     </div>
 </body>
 
 </html>
-
-<!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-gray-100">
-  <body class="h-full">
-  ```
--->
